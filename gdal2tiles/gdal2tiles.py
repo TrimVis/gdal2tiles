@@ -2720,6 +2720,12 @@ class GDAL2Tiles(object):
 
 
 def worker_tile_details(input_file, output_folder, options, send_pipe=None):
+    # Let's redirect stderr to devnull, as arch linux gdal throws some
+    # shared object files error that are ignorable
+    import sys
+    import os
+    sys.stderr = open(os.devnull, 'w')
+
     gdal2tiles = GDAL2Tiles(input_file, output_folder, options)
     gdal2tiles.open_input()
     gdal2tiles.generate_metadata()
